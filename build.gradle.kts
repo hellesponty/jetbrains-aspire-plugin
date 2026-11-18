@@ -105,18 +105,20 @@ intellijPlatformTesting {
     }
 }
 
-// Refuse to sign or publish while plugin.xml or LICENSE still contain TODO placeholders (vendor, copyright).
-val releaseFiles = listOf(
-    layout.projectDirectory.file("src/main/resources/META-INF/plugin.xml").asFile,
-    layout.projectDirectory.file("LICENSE").asFile,
-)
-listOf("signPlugin", "publishPlugin").forEach { name ->
-    tasks.named(name) {
-        doFirst {
-            val unfinished = releaseFiles.filter { it.readText().contains("TODO") }
-            if (unfinished.isNotEmpty()) {
-                throw GradleException("Replace the TODO placeholders before releasing: ${unfinished.joinToString { it.name }}")
-            }
+// signPlugin silently skips itself when no certificate is configured; fail with instructions instead.
+val checkSigningEnv = tasks.register("checkSigningEnv") {
+    description = "Check signing env contains required env variables"
+    val certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+    val privateKey = providers.environmentVariable("PRIVATE_KEY")
+    val password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+    doLast {
+        val missing = mapOf("CERTIFICATE_CHAIN" to certificateChain, "PRIVATE_KEY" to privateKey, "PRIVATE_KEY_PASSWORD" to password)
+            .filterValues { !it.isPresent || it.get().isBlank() }.keys
+        if (missing.isNotEmpty()) {
+            throw GradleException(
+                "Signing needs these environment variables: ${missing.joinToString()}. "
+            )
         }
     }
 }
+tasks.named("signPlugin") { dependsOn(checkSigningEnv) }

@@ -2,7 +2,7 @@ package io.github.hellesponty.aspire.settings
 
 import com.intellij.openapi.components.BaseState
 import com.intellij.openapi.components.Service
-import com.intellij.openapi.components.SimplePersistentStateComponent
+import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
@@ -24,7 +24,15 @@ class AspireSettingsState : BaseState() {
 
 @Service(Service.Level.APP)
 @State(name = "AspireAppHostSettings", storages = [Storage("aspire-apphost.xml")])
-class AspireSettings : SimplePersistentStateComponent<AspireSettingsState>(AspireSettingsState()) {
+class AspireSettings : PersistentStateComponent<AspireSettingsState> {
+    private var settingsState = AspireSettingsState()
+
+    override fun getState(): AspireSettingsState = settingsState
+
+    override fun loadState(state: AspireSettingsState) {
+        settingsState = state
+    }
+
     companion object {
         fun getInstance(): AspireSettings = service()
     }

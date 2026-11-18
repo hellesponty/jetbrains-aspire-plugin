@@ -35,3 +35,8 @@ build/
 
 # The Gradle wrapper jar must be committed (overrides *.jar above)
 !gradle/wrapper/gradle-wrapper.jar
+
+# Plugin signing material must never be committed
+*.pem
+*.crt
+*.key

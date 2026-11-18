@@ -18,6 +18,7 @@ import io.github.hellesponty.aspire.cli.RunningAppHost
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.nio.file.Files
@@ -26,13 +27,14 @@ import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Duration.Companion.milliseconds
 
 enum class AppHostPhase { STOPPED, STARTING, RUNNING, STOPPING }
 
 /**
  * Per-project state for the AppHost declared in `aspire.config.json`.
  *
- * Everything goes through the `aspire` CLI, so the same code drives TypeScript and C# AppHosts:
+ * Everything goes through the `aspire` CLI, so this should work for TS and C#:
  *  - `aspire ps --follow` tells us whether our AppHost is running (also when started from a terminal),
  *  - `aspire describe --follow` streams resource state,
  *  - `aspire logs --follow` streams console logs for all resources,
@@ -67,8 +69,8 @@ class AspireAppHostService(private val project: Project, private val scope: Coro
 
     init {
         scope.launch {
-            for (u in changes) {
-                delay(150)
+            changes.consumeEach {
+                delay(150.milliseconds)
                 project.messageBus.syncPublisher(ServiceEventListener.TOPIC)
                     .handle(ServiceEventListener.ServiceEvent.createResetEvent(AspireServiceViewContributor::class.java))
             }
@@ -118,7 +120,7 @@ class AspireAppHostService(private val project: Project, private val scope: Coro
                 if (e is kotlinx.coroutines.CancellationException) throw e
                 LOG.warn("aspire ps --follow failed", e)
             }
-            delay(5_000)
+            delay(5_000.milliseconds)
         }
     }
 
@@ -211,17 +213,17 @@ class AspireAppHostService(private val project: Project, private val scope: Coro
             val parsed = AspireJson.parseLogs(json)
             logLines += parsed.size
             if (logLines in 1..parsed.size || logLines % 500 < parsed.size) LOG.info("Log lines received: $logLines")
-            for (log in parsed) {
-                val display = displayNameFor(log.resourceName)
-                val type = if (log.isError) ProcessOutputTypes.STDERR else ProcessOutputTypes.STDOUT
-                val ts = formatTimestamp(log.timestamp)
+            for ((resourceName, content, isError, timestamp) in parsed) {
+                val display = displayNameFor(resourceName)
+                val type = if (isError) ProcessOutputTypes.STDERR else ProcessOutputTypes.STDOUT
+                val ts = formatTimestamp(timestamp)
                 sinkFor(display).apply {
                     if (ts != null) print("$ts ", ProcessOutputTypes.SYSTEM)
-                    print(log.content + "\n", type)
+                    print(content + "\n", type)
                 }
                 appHostSink.apply {
                     print("${ts?.let { "$it " } ?: ""}[$display] ", ProcessOutputTypes.SYSTEM)
-                    print(log.content + "\n", type)
+                    print(content + "\n", type)
                 }
             }
         }
@@ -237,7 +239,7 @@ class AspireAppHostService(private val project: Project, private val scope: Coro
         LOG.info("aspire $name --follow ended (exit $exitCode)")
         val wait = maxOf(1_000L, RECONNECT_INTERVAL_MS - (System.currentTimeMillis() - lastConnectAt))
         scope.launch {
-            delay(wait)
+            delay(wait.milliseconds)
             checkRunningOnce()
         }
     }

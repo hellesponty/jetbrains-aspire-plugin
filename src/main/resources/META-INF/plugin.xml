@@ -4,7 +4,7 @@
     <vendor url="https://plugins.jetbrains.com/vendor/hellesponty" email="">hellesponty</vendor>
 
     <description><![CDATA[
-    Brings Aspire AppHosts to JetBrains editors outside Rider.
+    Brings Aspire AppHosts to JetBrains editors outside Rider as services.
     <ul>
       <li>Detects <code>aspire.config.json</code> at the repository root (TypeScript AppHosts such as <code>apphost.mts</code> are supported first-class).</li>
       <li>Start, stop and restart the AppHost, or attach to one already started from a terminal.</li>
