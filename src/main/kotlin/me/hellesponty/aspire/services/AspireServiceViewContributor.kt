@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.services
+package me.hellesponty.aspire.services
 
 import com.intellij.execution.services.ServiceViewContributor
 import com.intellij.execution.services.ServiceViewDescriptor
@@ -12,10 +12,10 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.pom.Navigatable
 import com.intellij.ui.SimpleTextAttributes
-import io.github.hellesponty.aspire.AspireIcons
-import io.github.hellesponty.aspire.actions.AppHostActions
-import io.github.hellesponty.aspire.actions.ResourceActions
-import io.github.hellesponty.aspire.cli.ResourceInfo
+import me.hellesponty.aspire.AspireIcons
+import me.hellesponty.aspire.actions.AppHostActions
+import me.hellesponty.aspire.actions.ResourceActions
+import me.hellesponty.aspire.cli.ResourceInfo
 import javax.swing.Icon
 import javax.swing.JComponent
 

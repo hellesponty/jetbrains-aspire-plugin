@@ -1,10 +1,9 @@
-package io.github.hellesponty.aspire.cli
+package me.hellesponty.aspire.cli
 
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.util.SystemInfo
-import com.intellij.util.EnvironmentUtil
-import io.github.hellesponty.aspire.settings.AspireSettings
+import me.hellesponty.aspire.settings.AspireSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,9 +33,8 @@ class AspireCli(private val workDir: Path) {
     fun executable(): String {
         AspireSettings.getInstance().state.cliPath?.takeIf { it.isNotBlank() }?.let { return it }
         val exe = if (SystemInfo.isWindows) "aspire.exe" else "aspire"
-        // Use the login-shell PATH: IDEs started from a desktop launcher often lack ~/.aspire/bin.
-        val path = EnvironmentUtil.getValue("PATH") ?: System.getenv("PATH") ?: ""
-        path.split(File.pathSeparatorChar).filter { it.isNotBlank() }
+        // Use the shell's PATH: IDEs started from a desktop launcher often lack ~/.aspire/bin.
+        ShellEnvironment.path().split(File.pathSeparatorChar).filter { it.isNotBlank() }
             .map { File(it, exe) }.firstOrNull { it.canExecute() }
             ?.let { return it.absolutePath }
         val home = File(System.getProperty("user.home"), ".aspire/bin/$exe")
@@ -50,7 +48,9 @@ class AspireCli(private val workDir: Path) {
             .withParameters("--nologo", "--non-interactive")
             .withWorkDirectory(workDir.toFile())
             .withCharset(StandardCharsets.UTF_8)
-            .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE)
+            // The terminal's environment, so the AppHost finds npm/node like `aspire start` in a terminal would.
+            .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.NONE)
+            .withEnvironment(ShellEnvironment.get())
 
     /** Runs a short-lived command and collects its output. Cancelling the caller kills the process. */
     suspend fun run(vararg args: String, onLine: ((String, Boolean) -> Unit)? = null): CliResult =

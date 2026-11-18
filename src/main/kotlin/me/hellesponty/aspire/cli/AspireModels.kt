@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.cli
+package me.hellesponty.aspire.cli
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

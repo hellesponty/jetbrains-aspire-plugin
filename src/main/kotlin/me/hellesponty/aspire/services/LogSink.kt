@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.services
+package me.hellesponty.aspire.services
 
 import com.intellij.execution.filters.TextConsoleBuilderFactory
 import com.intellij.execution.process.AnsiEscapeDecoder

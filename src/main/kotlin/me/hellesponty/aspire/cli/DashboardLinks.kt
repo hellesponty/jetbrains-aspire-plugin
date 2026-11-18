@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.cli
+package me.hellesponty.aspire.cli
 
 import java.net.URI
 import java.net.URLEncoder

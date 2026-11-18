@@ -1,10 +1,10 @@
-package io.github.hellesponty.aspire.services
+package me.hellesponty.aspire.services
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
 import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
-import io.github.hellesponty.aspire.cli.AspireConfig
+import me.hellesponty.aspire.cli.AspireConfig
 
 /** Looks for `aspire.config.json` once the project is open. */
 class AspireStartupActivity : ProjectActivity {

@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.services
+package me.hellesponty.aspire.services
 
 import com.intellij.execution.process.ProcessOutputTypes
 import com.intellij.execution.services.ServiceEventListener
@@ -9,12 +9,12 @@ import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.project.Project
-import io.github.hellesponty.aspire.cli.AspireCli
-import io.github.hellesponty.aspire.cli.AspireCliNotFoundException
-import io.github.hellesponty.aspire.cli.AspireConfig
-import io.github.hellesponty.aspire.cli.AspireJson
-import io.github.hellesponty.aspire.cli.ResourceInfo
-import io.github.hellesponty.aspire.cli.RunningAppHost
+import me.hellesponty.aspire.cli.AspireCli
+import me.hellesponty.aspire.cli.AspireCliNotFoundException
+import me.hellesponty.aspire.cli.AspireConfig
+import me.hellesponty.aspire.cli.AspireJson
+import me.hellesponty.aspire.cli.ResourceInfo
+import me.hellesponty.aspire.cli.RunningAppHost
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel

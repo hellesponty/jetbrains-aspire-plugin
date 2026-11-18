@@ -1,12 +1,12 @@
 <idea-plugin>
-    <id>io.github.hellesponty.aspire</id>
+    <id>me.hellesponty.aspire</id>
     <name>Aspire AppHost Services</name>
     <vendor url="https://plugins.jetbrains.com/vendor/hellesponty" email="">hellesponty</vendor>
 
     <description><![CDATA[
-    Brings Aspire AppHosts to JetBrains editors outside Rider as services.
+    Brings Aspire AppHosts to JetBrains editors outside Rider as services, including support for TypeScript AppHosts.
     <ul>
-      <li>Detects <code>aspire.config.json</code> at the repository root (TypeScript AppHosts such as <code>apphost.mts</code> are supported first-class).</li>
+      <li>Detects <code>aspire.config.json</code> at the repository root</li>
       <li>Start, stop and restart the AppHost, or attach to one already started from a terminal.</li>
       <li>Live state, health and endpoints per resource.</li>
       <li>Console logs per resource, plus a combined log on the AppHost node.</li>
@@ -25,6 +25,7 @@
       <li>Start, stop and restart the AppHost and its resources; attach to an AppHost started from a terminal.</li>
       <li>Per-resource and combined console logs, resource state, health, endpoints and dashboard links.</li>
     </ul>
+    <i>See all changes on <a href="https://github.com/hellesponty/jetbrains-aspire-plugin/blob/main/CHANGELOG.md">Github</a></i>
     ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
@@ -33,16 +34,16 @@
     <incompatible-with>com.intellij.modules.rider</incompatible-with>
 
     <extensions defaultExtensionNs="com.intellij">
-        <serviceViewContributor implementation="io.github.hellesponty.aspire.services.AspireServiceViewContributor"/>
-        <postStartupActivity implementation="io.github.hellesponty.aspire.services.AspireStartupActivity"/>
+        <serviceViewContributor implementation="me.hellesponty.aspire.services.AspireServiceViewContributor"/>
+        <postStartupActivity implementation="me.hellesponty.aspire.services.AspireStartupActivity"/>
         <notificationGroup id="Aspire" displayType="BALLOON"/>
-        <applicationConfigurable parentId="tools" id="io.github.hellesponty.aspire.settings"
+        <applicationConfigurable parentId="tools" id="me.hellesponty.aspire.settings"
                                  displayName="Aspire"
-                                 instance="io.github.hellesponty.aspire.settings.AspireSettingsConfigurable"/>
+                                 instance="me.hellesponty.aspire.settings.AspireSettingsConfigurable"/>
     </extensions>
 
     <projectListeners>
-        <listener class="io.github.hellesponty.aspire.services.AspireConfigListener"
+        <listener class="me.hellesponty.aspire.services.AspireConfigListener"
                   topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
     </projectListeners>
 </idea-plugin>

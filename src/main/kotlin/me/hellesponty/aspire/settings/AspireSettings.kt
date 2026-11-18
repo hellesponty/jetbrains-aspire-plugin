@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.settings
+package me.hellesponty.aspire.settings
 
 import com.intellij.openapi.components.BaseState
 import com.intellij.openapi.components.Service

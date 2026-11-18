@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.cli
+package me.hellesponty.aspire.cli
 
 import com.google.gson.JsonParser
 import com.intellij.openapi.diagnostic.logger

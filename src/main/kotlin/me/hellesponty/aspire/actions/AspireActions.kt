@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.actions
+package me.hellesponty.aspire.actions
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.BrowserUtil
@@ -12,10 +12,10 @@ import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
-import io.github.hellesponty.aspire.cli.DashboardLinks
-import io.github.hellesponty.aspire.cli.ResourceInfo
-import io.github.hellesponty.aspire.services.AppHostPhase
-import io.github.hellesponty.aspire.services.AspireAppHostService
+import me.hellesponty.aspire.cli.DashboardLinks
+import me.hellesponty.aspire.cli.ResourceInfo
+import me.hellesponty.aspire.services.AppHostPhase
+import me.hellesponty.aspire.services.AspireAppHostService
 import javax.swing.Icon
 
 private abstract class BgtAction(text: String, description: String?, icon: Icon?) : DumbAwareAction(text, description, icon) {
@@ -107,7 +107,7 @@ object ResourceActions {
         }
         override fun getChildren(e: AnActionEvent?): Array<AnAction> =
             resource()?.urls.orEmpty().map { u ->
-                simple("${u.name}: ${u.url}", null) { BrowserUtil.browse(u.url) } as AnAction
+                simple("${u.name}: ${u.url}", null) { BrowserUtil.browse(u.url) }
             }.toTypedArray()
     }
 
@@ -125,7 +125,7 @@ object ResourceActions {
         override fun getChildren(e: AnActionEvent?): Array<AnAction> {
             val res = resource() ?: return emptyArray()
             return custom().map { c ->
-                simple(c.displayName, null, { c.enabled }) { run(res, c.name) } as AnAction
+                simple(c.displayName, null, { c.enabled }) { run(res, c.name) }
             }.toTypedArray()
         }
     }

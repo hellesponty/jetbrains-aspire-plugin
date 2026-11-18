@@ -1,4 +1,4 @@
-package io.github.hellesponty.aspire.cli
+package me.hellesponty.aspire.cli
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
