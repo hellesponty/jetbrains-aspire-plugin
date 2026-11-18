@@ -13,7 +13,7 @@
       <li>Start, stop, restart and run custom commands for each resource.</li>
     </ul>
     Requires the <a href="https://aspire.dev">Aspire CLI</a>. Tested with IntelliJ IDEA, WebStorm and GoLand.
-    View the source on <a href="https://github.com/hellesponty/jetbrains-aspire">GitHub</a>.
+    View the source on <a href="https://github.com/hellesponty/jetbrains-aspire-plugin">GitHub</a>.
     <p><i>This is an unofficial community plugin. It is not affiliated with or endorsed by Microsoft or JetBrains,
     and is separate from JetBrains' Aspire plugin for Rider. Aspire is a trademark of its respective owner.</i></p>
     ]]></description>
