@@ -1,12 +1,10 @@
 <idea-plugin>
     <id>io.github.hellesponty.aspire</id>
     <name>Aspire AppHost Services</name>
-    <!-- TODO before publishing: your name, plus a website and email that work. All three are shown
-         publicly on the Marketplace page and are checked during review. -->
-    <vendor url="https://github.com/hellesponty/jetbrains-aspire" email="TODO-your@email">TODO Your Name</vendor>
+    <vendor url="https://plugins.jetbrains.com/vendor/hellesponty" email="">hellesponty</vendor>
 
     <description><![CDATA[
-    Brings Aspire AppHosts to JetBrains editors other than Rider.
+    Brings Aspire AppHosts to JetBrains editors outside Rider.
     <ul>
       <li>Detects <code>aspire.config.json</code> at the repository root (TypeScript AppHosts such as <code>apphost.mts</code> are supported first-class).</li>
       <li>Start, stop and restart the AppHost, or attach to one already started from a terminal.</li>
