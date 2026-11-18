@@ -1,8 +1,9 @@
 # Aspire AppHost Services (JetBrains plugin)
 
-Shows the Aspire AppHost of a repository in the **Services** tool window of JetBrains IDEs other than Rider,
+Shows the Aspire AppHost of a repository in the **Services** tool window of JetBrains IDEs,
 with TypeScript AppHosts (`apphost.mts` / `apphost.ts`) supported first-class.
-Rider has JetBrains' own Aspire plugin, so this one declares itself incompatible with Rider and doesn't load there.
+
+Please note that since Rider has an official plugin for Aspire support, this plugin does not work on Rider.
 
 ## What it does
 
