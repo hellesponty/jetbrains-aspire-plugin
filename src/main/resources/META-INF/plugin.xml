@@ -1,0 +1,50 @@
+<idea-plugin>
+    <id>io.github.hellesponty.aspire</id>
+    <name>Aspire AppHost Services</name>
+    <!-- TODO before publishing: your name, plus a website and email that work. All three are shown
+         publicly on the Marketplace page and are checked during review. -->
+    <vendor url="https://github.com/hellesponty/jetbrains-aspire" email="TODO-your@email">TODO Your Name</vendor>
+
+    <description><![CDATA[
+    Brings Aspire AppHosts to JetBrains editors other than Rider.
+    <ul>
+      <li>Detects <code>aspire.config.json</code> at the repository root (TypeScript AppHosts such as <code>apphost.mts</code> are supported first-class).</li>
+      <li>Start, stop and restart the AppHost, or attach to one already started from a terminal.</li>
+      <li>Live state, health and endpoints per resource.</li>
+      <li>Console logs per resource, plus a combined log on the AppHost node.</li>
+      <li>Start, stop, restart and run custom commands for each resource.</li>
+    </ul>
+    Requires the <a href="https://aspire.dev">Aspire CLI</a>. Tested with IntelliJ IDEA, WebStorm and GoLand.
+    View the source on <a href="https://github.com/hellesponty/jetbrains-aspire">GitHub</a>.
+    <p><i>This is an unofficial community plugin. It is not affiliated with or endorsed by Microsoft or JetBrains,
+    and is separate from JetBrains' Aspire plugin for Rider. Aspire is a trademark of its respective owner.</i></p>
+    ]]></description>
+
+    <change-notes><![CDATA[
+    First release.
+    <ul>
+      <li>Detects the AppHost declared in <code>aspire.config.json</code> and shows it in the Services tool window.</li>
+      <li>Start, stop and restart the AppHost and its resources; attach to an AppHost started from a terminal.</li>
+      <li>Per-resource and combined console logs, resource state, health, endpoints and dashboard links.</li>
+    </ul>
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <!-- Rider has JetBrains' own Aspire plugin; don't load there so the two never compete. -->
+    <incompatible-with>com.intellij.modules.rider</incompatible-with>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <serviceViewContributor implementation="io.github.hellesponty.aspire.services.AspireServiceViewContributor"/>
+        <postStartupActivity implementation="io.github.hellesponty.aspire.services.AspireStartupActivity"/>
+        <notificationGroup id="Aspire" displayType="BALLOON"/>
+        <applicationConfigurable parentId="tools" id="io.github.hellesponty.aspire.settings"
+                                 displayName="Aspire"
+                                 instance="io.github.hellesponty.aspire.settings.AspireSettingsConfigurable"/>
+    </extensions>
+
+    <projectListeners>
+        <listener class="io.github.hellesponty.aspire.services.AspireConfigListener"
+                  topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
+    </projectListeners>
+</idea-plugin>
